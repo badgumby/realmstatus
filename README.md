@@ -8,7 +8,7 @@ Run then `realmstatus.py` script.
 
 The script now support two flags (`-r` and `-t`) that can be appended at runtime.
 
-`-r` allows you to pass the realm, using the Blizzard Realm Slug. More info [here](https://)
+`-r` allows you to pass the realm, using the Blizzard Realm Slug. More info [here](https://develop.battle.net/documentation/world-of-warcraft/game-data-apis). Realm slugs are normally the realm name that has been stripped of non-alphabet characters and spaces. An example would be `Ner'Zhul`. It's slug would be `nerzhul`.
 
 `-t` will display your current token alongside the realm status.
 
