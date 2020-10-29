@@ -3,6 +3,21 @@ import requests # Used to get webpage HTML
 import json # Used for reading json data
 import time # Used for sleep in loop
 import os # Used to get file paths
+import sys # Used to read arguments from execution
+import getopt # Used to read arguments from execution
+
+slug = ''
+showtoken = False
+
+opts, args = getopt.getopt(sys.argv[1:],"hr:t")
+for opt, arg in opts:
+	if opt == '-h':
+		print('realmstatus.py -r <realmslug> -t')
+		sys.exit()
+	elif opt in ("-r"):
+		slug = arg
+	elif opt in ("-t"):
+		showtoken = True
 
 # Set local current working directory
 cwd = os.path.dirname(__file__)
@@ -51,7 +66,8 @@ def generateToken():
 generateToken()
 
 # Request input of realm slug
-slug = input("Please enter your realm slug (ex. frostmane): ")
+if slug == '':
+	slug = input("Please enter your realm slug (ex. frostmane): ")
 
 # Search for realm by slug
 realmAPI = "https://us.api.blizzard.com/data/wow/realm/" + slug + "?namespace=dynamic-us&locale=en_US&access_token=" + myToken
@@ -63,21 +79,31 @@ url = realmJ['connected_realm']['href'] + "&locale=en_US&access_token=" + myToke
 
 # Get connected-realm group status
 i = 0
-while True:
-	i += 1
-	# Fetch info from Blizzard
-	req = requests.get(url)
-	# Read req as json
-	jsonreq = req.json()
-	# Clear screen
-	os.system('cls' if os.name == 'nt' else 'clear')
-	# Set variables from the json results
-	status = jsonreq['status']['name']
-	realms = jsonreq['realms']
-	print([realm['name'] for realm in realms])
-	if status == 'Down':
-		print(f"The above realms are {bcolors.BOLD}{bcolors.RED}" + status + f"{bcolors.ENDC}.")
-	else:
-		print(f"The above realms are {bcolors.BOLD}{bcolors.GREEN}" + status + f"{bcolors.ENDC}.")
-	print("This updates every 20 seconds. Number of updates: " + str(i))
-	time.sleep(20)
+# Try/Except for clean exit
+try:
+	while True:
+		i += 1
+		# Fetch info from Blizzard
+		req = requests.get(url)
+		# Read req as json
+		jsonreq = req.json()
+		# Clear screen
+		os.system('cls' if os.name == 'nt' else 'clear')
+		# Set variables from the json results
+		status = jsonreq['status']['name']
+		realms = jsonreq['realms']
+		print([realm['name'] for realm in realms])
+		if status == 'Down':
+			print(f"The above realms are {bcolors.BOLD}{bcolors.RED}" + status + f"{bcolors.ENDC}.")
+		else:
+			print(f"The above realms are {bcolors.BOLD}{bcolors.GREEN}" + status + f"{bcolors.ENDC}.")
+		print("This updates every 20 seconds. Number of updates: " + str(i))
+		# Show current token if flag was used
+		if showtoken == True:
+			print('Current token: ', myToken)
+		print('Press CTRL+C to exit.')
+		time.sleep(20)
+# Catch CTRL+C to exit loop
+except KeyboardInterrupt:
+	print("Exiting...")
+	time.sleep(2)
