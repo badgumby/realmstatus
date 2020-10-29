@@ -14,5 +14,8 @@ The script now support two flags (`-r` and `-t`) that can be appended at runtime
 
 Example command: `realmstatus.py -r frostmane -t`
 
+Example output:
+![Alt text](/blob/main/realmstatus.png?raw=true "Screenshot")
+
 # wownews
 This is just a webscaper sample to grab patch notes. It completely standalone, but I didn't have anywhere else to put it.
