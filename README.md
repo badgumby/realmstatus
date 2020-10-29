@@ -12,9 +12,8 @@ The script now support two flags (`-r` and `-t`) that can be appended at runtime
 
 `-t` will display your current token alongside the realm status.
 
-Example command: `realmstatus.py -r frostmane -t`
+Example command with output: `realmstatus.py -r frostmane -t`
 
-Example output:
 ![Screenshot](/realmstatus.png?raw=true "Screenshot")
 
 # wownews
