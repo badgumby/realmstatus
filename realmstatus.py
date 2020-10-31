@@ -74,6 +74,13 @@ realmAPI = "https://us.api.blizzard.com/data/wow/realm/" + slug + "?namespace=dy
 realmReq = requests.get(realmAPI)
 realmJ = realmReq.json()
 
+# Make sure entered realm is valid
+if "code" in realmJ:
+    print('Error code: ', realmJ["code"])
+    print('Realm Detail: ', realmJ["detail"])
+    print('Exiting...')
+    exit()
+
 # Lookup the selected realm connected-realm ID
 url = realmJ['connected_realm']['href'] + "&locale=en_US&access_token=" + myToken
 
